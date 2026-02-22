@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import Button from "./components/Button";
 import { useState } from "react";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import FullScreenButton from "./components/FullScreenButton";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("intro");
@@ -11,6 +12,7 @@ function App() {
   return (
     <>
       <Button currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+      <FullScreenButton />
       <Canvas shadows camera={{ position: [5, 2, 20], fov: 42 }}>
         <color attach={"background"} args={["#171720"]} />
         
