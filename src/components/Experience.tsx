@@ -4,8 +4,13 @@ import { Color } from "three";
 import { degToRad } from "three/src/math/MathUtils.js";
 import * as THREE from 'three';
 import { useFrame } from "@react-three/fiber";
+import { SoldierCharacter } from "./SoldierCharacter";
+import type { ExperienceProps } from "../const/types";
+import { players } from "../const/const";
 
-const Experience = ({ currentPage, setCurrentPage }: { currentPage: string, setCurrentPage: (page: string) => void }) => {
+
+
+const Experience = ({ currentPage, setCurrentPage }: ExperienceProps) => {
 
     const { scene } = useGLTF("./models/map1.glb");
     //   const { scene } = useGLTF("./models/map_simple.glb");
@@ -37,11 +42,8 @@ const Experience = ({ currentPage, setCurrentPage }: { currentPage: string, setC
 
         } else {
             await camControlRef.current.fitToBox(fitCameraHomeRef.current, true)
-
         }
-
     }
-
 
     const intro = async () => {
         if (!camControlRef.current || !fitCameraHomeRef.current) return;
@@ -64,8 +66,6 @@ const Experience = ({ currentPage, setCurrentPage }: { currentPage: string, setC
             }
         });
     }
-
-
 
     useEffect(() => {
         initShadow(scene)
@@ -126,6 +126,7 @@ const Experience = ({ currentPage, setCurrentPage }: { currentPage: string, setC
                 <boxGeometry args={[13, 3, 2]} />
                 <meshBasicMaterial color={"orange"} transparent opacity={0.5} />
             </mesh>
+            {currentPage === "store" && players.map(({ ...playerProps }) => (<SoldierCharacter key={playerProps.id} {...playerProps}/>))}
             <Suspense fallback={null}>
 
                 <Text
@@ -151,8 +152,8 @@ const Experience = ({ currentPage, setCurrentPage }: { currentPage: string, setC
                             </Float>
                         </RenderTexture>
                     </meshBasicMaterial>
+                
                 </Text>
-
                 <group>
                     <primitive scale={0.13} rotation-y={degToRad(145)} position-x={5.0} position-y={1.1} object={scene} />
                     <mesh ref={fitCameraArenaRef} position-x={5} position-y={2} visible={false}>
@@ -165,7 +166,7 @@ const Experience = ({ currentPage, setCurrentPage }: { currentPage: string, setC
                     <planeGeometry args={[100, 100]} />
                     <MeshReflectorMaterial
                         blur={[300, 100]}
-                        resolution={1024}
+                        resolution={768}
                         mixBlur={1}
                         mixStrength={80}
                         roughness={1}
