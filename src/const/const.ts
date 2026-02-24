@@ -1,21 +1,27 @@
-﻿import { degToRad } from "three/src/math/MathUtils.js";
+﻿import * as THREE from "three";
+import { degToRad } from "three/src/math/MathUtils.js";
 import type { SoldierCharacterProps } from "./types";
 
+
 export const WEAPONS = [
-  "GrenadeLauncher",
-  "AK",
-  "Knife_1",
-  "Knife_2",
-  "Pistol",
-  "Revolver",
-  "Revolver_Small",
-  "RocketLauncher",
-  "ShortCannon",
-  "SMG",
-  "Shotgun",
-  "Shovel",
-  "Sniper",
-  "Sniper_2",
+    "GrenadeLauncher",
+    "AK",
+    "Knife_1",
+    "Knife_2",
+    "Pistol",
+    "Revolver",
+    "Revolver_Small",
+    "RocketLauncher",
+    "ShortCannon",
+    "SMG",
+    "Shotgun",
+    "Shovel",
+    "Sniper",
+    "Sniper_2",
+] as const;
+
+export const COLORS = [
+    "blue", "red", "green", "yellow", "orange", "black", "gray", "gold", "purple"
 ] as const;
 
 export const players: SoldierCharacterProps[] = [
@@ -45,36 +51,36 @@ export const players: SoldierCharacterProps[] = [
     },
     {
         id: "4",
-        position: [5.9, 2.06, 0.5],
+        position: [6.1, 2.06, 0.2],
         rotation: [0, degToRad(240), 0],
         weapon: "Pistol",
         animation: "Death",
         color: "red"
     },
-    {
-        id: "5",
-        position: [6.8, 2.21, 1.6],
-        rotation: [0, degToRad(60), 0],
-        weapon: "AK",
-        animation: "Duck",
-        color: "green"
-    },
-    {
-        id: "6",
-        position: [2.5, 2.02, -0.5],
-        rotation: [0, degToRad(240), 0],
-        weapon: "Sniper",
-        animation: "Wave",
-        color: "black"
-    },
-    {
-        id: "7",
-        position: [4.6, 2.21, 2.7],
-        rotation: [0, degToRad(-30), 0],
-        weapon: "Knife_2",
-        animation: "Wave",
-        color: "red"
-    },
+    // {
+    //     id: "5",
+    //     position: [6.8, 2.21, 1.6],
+    //     rotation: [0, degToRad(60), 0],
+    //     weapon: "AK",
+    //     animation: "Duck",
+    //     color: "green"
+    // },
+    // {
+    //     id: "6",
+    //     position: [2.5, 2.02, -0.5],
+    //     rotation: [0, degToRad(240), 0],
+    //     weapon: "Sniper",
+    //     animation: "Wave",
+    //     color: "black"
+    // },
+    // {
+    //     id: "7",
+    //     position: [4.6, 2.21, 2.7],
+    //     rotation: [0, degToRad(-30), 0],
+    //     weapon: "Knife_2",
+    //     animation: "Wave",
+    //     color: "red"
+    // },
     {
         id: "8",
         position: [3.4, 1.24, 1.5],
@@ -92,3 +98,14 @@ export const players: SoldierCharacterProps[] = [
         color: "gray"
     },
 ]
+
+export const patrolPoints = [
+    new THREE.Vector3(6.8, 2.21, 1.6),
+    new THREE.Vector3(2.5, 2.02, -0.5),
+    new THREE.Vector3(4.6, 2.21, 2.7),
+    new THREE.Vector3(2.0, 1.24, 0.2),
+    new THREE.Vector3(7.9, 1.25, -1),
+    new THREE.Vector3(4.4, 1.25, -3.4),
+    new THREE.Vector3(5.4, 1.25, -0),
+];
+

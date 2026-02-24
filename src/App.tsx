@@ -15,7 +15,6 @@ function App() {
       <FullScreenButton />
       <Canvas shadows camera={{ position: [5, 2, 20], fov: 42 }}>
         <color attach={"background"} args={["#171720"]} />
-        
         <Experience currentPage={currentPage} setCurrentPage={setCurrentPage}/>
         <EffectComposer >
           <Bloom mipmapBlur intensity={1.2} />

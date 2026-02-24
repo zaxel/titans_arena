@@ -14,5 +14,11 @@ export type SoldierCharacterProps = Omit<JSX.IntrinsicElements["group"], "id"> &
   id?: string;
 };
 
-
 export type ExperienceProps = { currentPage: string, setCurrentPage: (page: string) => void };
+
+export interface BotProps {
+    position: [number, number, number];
+    color?: string;
+    weapon?: WeaponType;
+    index: number;
+}

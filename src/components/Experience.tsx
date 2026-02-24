@@ -7,17 +7,14 @@ import { useFrame } from "@react-three/fiber";
 import { SoldierCharacter } from "./SoldierCharacter";
 import type { ExperienceProps } from "../const/types";
 import { players } from "../const/const";
+import NavMesh from "./NavMesh";
+import { Bots } from "../game/agents/Bots";
 
 
 
 const Experience = ({ currentPage, setCurrentPage }: ExperienceProps) => {
 
     const { scene } = useGLTF("./models/map1.glb");
-    //   const { scene } = useGLTF("./models/map_simple.glb");
-    //   const { scene } = useGLTF("./models/map_plane.glb");
-    const arenaClone = useMemo(() => scene.clone(true), [scene]);
-
-
     const camControlRef = useRef<CameraControls>(null);
     const fitCameraHomeRef = useRef<THREE.Mesh>(null);
     const fitCameraArenaRef = useRef<THREE.Mesh>(null);
@@ -30,6 +27,8 @@ const Experience = ({ currentPage, setCurrentPage }: ExperienceProps) => {
 
     const bloomColor = new Color("#ffffff");
     bloomColor.multiplyScalar(1.5);
+
+    const arenaClone = useMemo(() => scene.clone(true), [scene]);
 
 
     const adjustCamera = async () => {
@@ -48,13 +47,11 @@ const Experience = ({ currentPage, setCurrentPage }: ExperienceProps) => {
     const intro = async () => {
         if (!camControlRef.current || !fitCameraHomeRef.current) return;
 
-
         camControlRef.current.smoothTime = 0.1;
         await camControlRef.current.dolly(-1, true);
         camControlRef.current.smoothTime = 1.6;
 
         await adjustCamera();
-
         setCurrentPage("home")
     };
 
@@ -128,7 +125,6 @@ const Experience = ({ currentPage, setCurrentPage }: ExperienceProps) => {
             </mesh>
             {currentPage === "store" && players.map(({ ...playerProps }) => (<SoldierCharacter key={playerProps.id} {...playerProps}/>))}
             <Suspense fallback={null}>
-
                 <Text
                     ref={textRef}
                     // font="./fonts/Roboto-Black.ttf"
@@ -154,8 +150,14 @@ const Experience = ({ currentPage, setCurrentPage }: ExperienceProps) => {
                     </meshBasicMaterial>
                 
                 </Text>
+
+
+                <NavMesh />
+                
                 <group>
-                    <primitive scale={0.13} rotation-y={degToRad(145)} position-x={5.0} position-y={1.1} object={scene} />
+                    <primitive 
+                    scale={0.13} 
+                    rotation-y={degToRad(145)} position-x={5.0} position-y={1.1} object={scene} />
                     <mesh ref={fitCameraArenaRef} position-x={5} position-y={2} visible={false}>
                         <boxGeometry args={[8, 1.5, 1]} />
                         <meshBasicMaterial color="red" transparent opacity={0.5} />
@@ -177,7 +179,7 @@ const Experience = ({ currentPage, setCurrentPage }: ExperienceProps) => {
                         metalness={0.5}
                     />
                 </mesh>
-
+                {currentPage === "store" && <Bots />}
             </Suspense>
         </>
     )
