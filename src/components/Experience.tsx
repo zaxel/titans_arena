@@ -1,4 +1,4 @@
-﻿import { CameraControls, Environment, Float, MeshReflectorMaterial, RenderTexture, Stats, Text, useGLTF } from "@react-three/drei";
+﻿import { CameraControls, Environment, Float, MeshReflectorMaterial, RenderTexture, Text, useGLTF } from "@react-three/drei";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Color } from "three";
 import { degToRad } from "three/src/math/MathUtils.js";
@@ -14,13 +14,14 @@ import { Bots } from "../game/agents/Bots";
 
 const Experience = ({ currentPage, setCurrentPage }: ExperienceProps) => {
 
-    const { scene } = useGLTF("./models/map1.glb");
+    const { scene } = useGLTF("./models/map.glb");
     const camControlRef = useRef<CameraControls>(null);
     const fitCameraHomeRef = useRef<THREE.Mesh>(null);
     const fitCameraArenaRef = useRef<THREE.Mesh>(null);
     const reflectionRef = useRef<THREE.Mesh>(null);
     const sceneRotationRef = useRef<boolean>(false);
     const [isPortrait, setIsPortrait] = useState<boolean>(window.innerHeight > window.innerWidth);
+    const resizeAllowedRef = useRef<boolean>(true);
 
     const textRef = useRef<THREE.Mesh>(null);
     const opacityRef = useRef<number>(1);
@@ -32,12 +33,13 @@ const Experience = ({ currentPage, setCurrentPage }: ExperienceProps) => {
 
 
     const adjustCamera = async () => {
-        if (!camControlRef.current || !fitCameraHomeRef.current || !fitCameraArenaRef.current) return;
+        if (!camControlRef.current || !fitCameraHomeRef.current || !fitCameraArenaRef.current || !resizeAllowedRef.current) return;
         if (currentPage === "store") {
             const fit = camControlRef.current.fitToBox(fitCameraArenaRef.current, true);
             const tilt = camControlRef.current.rotatePolarTo(degToRad(75), true);
             await Promise.all([fit, tilt]);
             sceneRotationRef.current = true;
+            resizeAllowedRef.current = false;
 
         } else {
             await camControlRef.current.fitToBox(fitCameraHomeRef.current, true)
@@ -115,7 +117,7 @@ const Experience = ({ currentPage, setCurrentPage }: ExperienceProps) => {
 
     return (
         <>
-            <Stats />
+            {/* <Stats /> */}
             <CameraControls ref={camControlRef} />
             <Environment preset="sunset" />
             <fog attach={"fog"} args={["#171720", 10, isPortrait ? 50 : 30]} />
@@ -150,10 +152,7 @@ const Experience = ({ currentPage, setCurrentPage }: ExperienceProps) => {
                     </meshBasicMaterial>
                 
                 </Text>
-
-
                 <NavMesh />
-                
                 <group>
                     <primitive 
                     scale={0.13} 
